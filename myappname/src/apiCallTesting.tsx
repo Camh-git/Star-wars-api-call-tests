@@ -32,14 +32,15 @@ test("Make sure luke skywalker is the first person returned", async () => {
 */
 
 const CallApi: React.FC = () => {
-  const [resp, setResp] = useState({});
+  let returnedjson = sampleData;
+  let [charData, setCharData] = useState([]);
   let response = "";
   useEffect(() => {
     const list = async () => {
       const result = await fetch("https://swapi.dev/api/people/1");
       result.json().then((json) => {
         response = json;
-        setResp(response);
+        setCharData(json);
         console.log("data:");
         console.log(response);
       });
@@ -49,10 +50,20 @@ const CallApi: React.FC = () => {
   return (
     <>
       <h2>Char data:</h2>
-      {resp === "" && "Loading..."}
-      {resp !== "" && <p>{response}</p>}
+      {charData.length === 0 && "Loading..."}
+      <p>
+        {
+          charData.length !== 0 &&
+            //Apparently array.map isn't a function, this is driving me up the wall
+            /*charData.map((item)=><p>{item}</p>)*/
+
+            returnedjson.birth_year //using the returned sample since the code that displays this from state disapeard alongside the gitignore a few commits ago and i didnt notice untill it was too late
+        }
+      </p>
     </>
   );
 };
 export default CallApi;
 //See returnedData.json for a copy of what this returned
+// apparently the git breakage swallowed the gitignore and the update where displaying the data worked
+// lots this is commented out because weird node issues keep saying that things like setupserver, expect or map dont exist
